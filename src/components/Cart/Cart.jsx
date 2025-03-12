@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { Helmet } from 'react-helmet';
+
 
 export default function Cart() {
   const { setCart, getCartItems, removeCartItem, updateCartItem, clearCart } =
@@ -41,7 +43,9 @@ export default function Cart() {
   return (
     <>
       <Toaster />
-
+      <Helmet>
+        <title>Cart</title>
+        </Helmet>
       <div className="container mx-auto p-4 mt-10 bg-gray-100 shadow-md rounded-lg">
         {/* Title */}
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 text-center">

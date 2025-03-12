@@ -1,5 +1,5 @@
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, createHashRouter, RouterProvider } from "react-router-dom";
 
 import "./App.css";
 import Layout from "./components/Layout/Layout";
@@ -37,7 +37,7 @@ import Wishlist from "./components/Wishlist/wishlist";
 
 
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "",
     element: <Layout />,

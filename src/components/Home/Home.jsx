@@ -7,11 +7,12 @@ import { useQuery } from "@tanstack/react-query";
 import { CartContext } from "../../context/CartContext";
 import { WishlistContext } from "../../context/WishlistContext";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet";
 
 export default function Home() {
   let { addToCart, setCart } = useContext(CartContext);
   let { setWishlist, addToWishlist } = useContext(WishlistContext);
-  let [page, setpage] = useState(1);
+  let [page, setPage] = useState(1);
   const [wishlistState, setWishlistState] = useState({});
 
   const GetAllProducts = ({ queryKey }) => {
@@ -31,12 +32,12 @@ export default function Home() {
     if (response.data.status === "success") {
       setCart(response.data);
       toast.success("Product added successfully to your cart", {
-        duration: 5000,
+        duration: 3000,
         position: "bottom-left",
       });
     } else {
       toast.error("Error adding product. Please try again.", {
-        duration: 5000,
+        duration: 3000,
         position: "bottom-left",
       });
     }
@@ -47,29 +48,31 @@ export default function Home() {
     if (response.data.status === "success") {
       setWishlist(response.data);
       setWishlistState((prev) => ({ ...prev, [productId]: true }));
-      toast.success("Product added successfully to your wishlist", {
-        duration: 5000,
+      toast.success("Added to wishlist!", {
+        duration: 3000,
         position: "bottom-left",
       });
     } else {
-      toast.error("Error adding product. Please try again.", {
-        duration: 5000,
+      toast.error("Error adding to wishlist. Try again.", {
+        duration: 3000,
         position: "bottom-left",
       });
     }
   }
 
   return (
-    <div className="mt-14">
+    <div className="mt-14 px-4">
+      <Helmet>
+        <title>Home</title>
+      </Helmet>
       {isLoading ? (
-        <div className="flex bg-slate-300 justify-center items-center h-screen w-full">
+        <div className="flex bg-gray-200 justify-center items-center h-screen w-full">
           <span className="loader"></span>
         </div>
       ) : (
-        <div className="w-11/12 mx-auto">
+        <div className="w-full max-w-7xl mx-auto">
           <MainSlider />
           <CategorySlider />
-
           {isError && (
             <h2 className="text-red-600 text-center">
               {error?.response?.data?.message || "Error loading products"}
@@ -82,139 +85,49 @@ export default function Home() {
               let categoryName = category?.name || "unknown-category";
 
               return (
-                <div
-                  key={_id}
-                  className="hover:shadow-2xl transition-shadow duration-300 border rounded-md p-3"
-                >
+                <div key={_id} className="bg-white shadow-lg rounded-lg p-4 transition-transform duration-300 hover:scale-105">
                   <Link to={`/ProductDetails/${_id}/${categoryName}`}>
-                    <div className="p-2">
-                      <img src={imageCover} alt={title} className="w-full h-40 object-cover" />
-                      <h5 className="text-gray-500 text-sm">{categoryName}</h5>
-                      <h2 className="text-lg font-bold">{title.split(" ").slice(0, 2).join(" ")}</h2>
-                      <div className="flex justify-between mt-2 text-sm">
-                        <span>{price} EGP</span>
-                        <span className="flex items-center">
-                          <i className="fa-solid fa-star text-yellow-300 mr-1"></i>
-                          {ratingsAverage}
-                        </span>
-                      </div>
+                    <div className="mb-3">
+                      <img src={imageCover} alt={title} className="w-full h-40 object-cover rounded-md" />
+                    </div>
+                    <h5 className="text-sm text-gray-500">{categoryName}</h5>
+                    <h2 className="text-lg font-semibold">{title.split(" ").slice(0, 2).join(" ")}</h2>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="text-green-600 font-bold">{price} EGP</span>
+                      <span className="text-yellow-500 text-sm">
+                        <i className="fa-solid fa-star"></i> {ratingsAverage}
+                      </span>
                     </div>
                   </Link>
-                  <div className="flex justify-between items-center mt-3">
-                    <i
-                      onClick={() => addWishlistProduct(product._id)}
-                      className={`fa-solid fa-heart text-2xl cursor-pointer ${wishlistState[product._id] ? "text-red-500" : "text-black"}`}
-                    ></i>
-                    <button
-                      onClick={() => addProduct(_id)}
-                      className="btn bg-green-500 text-white px-3 py-2 rounded-md hover:bg-green-600 transition"
-                    >
+                  <div className="flex justify-between items-center mt-4">
+                    <button onClick={() => addProduct(_id)} className="bg-green-500 text-white py-2 px-4 rounded-md w-full transition duration-300 hover:bg-green-600">
                       Add To Cart
                     </button>
+                    <i
+                      onClick={() => addWishlistProduct(product._id)}
+                      className={`fa-solid fa-heart text-2xl cursor-pointer ml-3 ${wishlistState[product._id] ? "text-red-500" : "text-gray-400"}`}
+                    ></i>
                   </div>
                 </div>
               );
             })}
           </div>
+
           <div className="flex justify-center mt-5 mb-5">
-<nav aria-label="Page navigation">
-  <ul className="flex items-center -space-x-px h-8 text-sm">
-    {/* Previous Button */}
-    <li>
-      <button
-        onClick={() => setpage((prev) => Math.max(prev - 1, 1))}
-        disabled={page === 1}
-        className={`flex items-center justify-center px-3 h-8 leading-tight border rounded-md ${
-          page === 1
-            ? "text-gray-400 cursor-not-allowed bg-gray-200"
-            : "text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700"
-        }`}
-      >
-        <span className="sr-only">Previous</span>
-        <svg
-          className="w-2.5 h-2.5"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 6 10"
-        >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M5 1 1 5l4 4"
-          />
-        </svg>
-      </button>
-    </li>
-
-    {/* Page Numbers */}
-    {new Array(data?.data?.metadata?.numberOfPages)
-      .fill("")
-      .map((_, i) => (
-        <li key={i}>
-          <button
-            onClick={() => setpage(i + 1)}
-            className={`cursor-pointer px-3 h-8 leading-tight border border-gray-300 rounded-md ${
-              page === i + 1
-                ? "text-white font-bold"
-                : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-            }`}
-            style={{
-              backgroundColor:
-                page === i + 1 ? "#0aad0a" : "white",
-            }}
-          >
-            {i + 1}
-          </button>
-        </li>
-      ))}
-
-    {/* Next Button */}
-    <li>
-      <button
-        onClick={() =>
-          setpage((prev) =>
-            Math.min(
-              prev + 1,
-              data?.data?.metadata?.numberOfPages
-            )
-          )
-        }
-        disabled={page === data?.data?.metadata?.numberOfPages}
-        className={`flex items-center justify-center px-3 h-8 leading-tight border rounded-md ${
-          page === data?.data?.metadata?.numberOfPages
-            ? "text-gray-400 cursor-not-allowed bg-gray-200"
-            : "text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700"
-        }`}
-      >
-        <span className="sr-only">Next</span>
-        <svg
-          className="w-2.5 h-2.5"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 6 10"
-        >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="m1 9 4-4-4-4"
-          />
-        </svg>
-      </button>
-    </li>
-  </ul>
-</nav>
-</div>
+            <button onClick={() => setPage((prev) => Math.max(prev - 1, 1))} disabled={page === 1} className="px-3 py-1 bg-gray-300 text-gray-700 rounded-l-md hover:bg-gray-400 disabled:opacity-50">
+              Prev
+            </button>
+            {new Array(data?.data?.metadata?.numberOfPages).fill("").map((_, i) => (
+              <button key={i} onClick={() => setPage(i + 1)} className={`px-3 py-1 mx-1 rounded-md ${page === i + 1 ? "bg-green-500 text-white" : "bg-white text-gray-700"}`}>
+                {i + 1}
+              </button>
+            ))}
+            <button onClick={() => setPage((prev) => Math.min(prev + 1, data?.data?.metadata?.numberOfPages))} disabled={page === data?.data?.metadata?.numberOfPages} className="px-3 py-1 bg-gray-300 text-gray-700 rounded-r-md hover:bg-gray-400 disabled:opacity-50">
+              Next
+            </button>
+          </div>
         </div>
       )}
     </div>
   );
 }
-
-
-

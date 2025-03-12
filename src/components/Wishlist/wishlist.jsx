@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { WishlistContext } from "../../context/WishlistContext";
+import { Helmet } from 'react-helmet';
+
 
 export default function Wishlist() {
   const { setWishlist, getWishlistItems, removeWishlistItem } =
@@ -26,6 +28,9 @@ export default function Wishlist() {
   return (
     <>
       <Toaster />
+      <Helmet>
+        <title>Wishlist</title>
+        </Helmet>
       <div className="container mx-auto p-4 mt-10 bg-gray-100 shadow-md rounded-lg">
         {/* Title */}
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 text-center">

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Helmet } from 'react-helmet';
 
 export default function Brands() {
   const [brands, setBrands] = useState([]);
@@ -22,9 +23,12 @@ export default function Brands() {
   return (
     <div className="container mx-auto py-5  px-4">
       {/* Title */}
-      <h1 className="text-3xl mt-11 md:text-4xl font-bold text-center text-main mb-6">
+      <h1 className="text-3xl mt-11 md:text-4xl font-bold text-center text-green-600 mb-6">
         All Brands
       </h1>
+      <Helmet>
+        <title>Brands</title>
+        </Helmet>
 
       {/* Grid Layout */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">

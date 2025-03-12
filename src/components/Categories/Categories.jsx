@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Helmet } from 'react-helmet';
+
 
 export default function Categories() {
   let [categories, setCategories] = useState([]);
@@ -19,6 +21,9 @@ export default function Categories() {
 
   return (
     <div className="container mx-auto p-5">
+        <Helmet>
+        <title>Categories</title>
+        </Helmet>
       {/* Flex container to arrange items in rows of 3 */}
       <div className="flex flex-wrap  mt-11 gap-6">
         {categories?.map((category) => (
@@ -35,7 +40,7 @@ export default function Categories() {
             </a>
             <div className="p-5">
               <a href="#">
-                <h5 className="mb-2  text-center text-main text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <h5 className="mb-2  text-center text-green-600 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   {category.name}
                 </h5>
               </a>
