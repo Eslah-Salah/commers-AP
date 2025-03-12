@@ -5,7 +5,7 @@ import "./App.css";
 import Layout from "./components/Layout/Layout";
 import Home from "./components/Home/Home";
 import Brands from "./components/Brands/Brands";
-
+import { Offline, Online } from "react-detect-offline";
 import Cart from "./components/Cart/Cart";
 
 import Login from "./components/Login/Login";
@@ -132,7 +132,8 @@ const router = createBrowserRouter([
 const queryClient = new QueryClient();
 function App() {
   return (
-  <WishlistProvider>
+    <>
+     <WishlistProvider>
       <CartContextProvider>
       <QueryClientProvider client={queryClient}>
         <UserContextProvider>
@@ -142,6 +143,9 @@ function App() {
       </QueryClientProvider>
     </CartContextProvider>
   </WishlistProvider>
+  <Offline ><div className="fixed bottom-6 left-7 rounded bg-white p-3">You're offline right now. Check your connection.</div></Offline></>
+ 
+  
   );
 }
 

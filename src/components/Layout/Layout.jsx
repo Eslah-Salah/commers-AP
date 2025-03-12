@@ -10,7 +10,7 @@ export default function Layout() {
   return (
     <>
     <Navbar/>
-   <div className="my-10 py-10">
+   <div className="pt-5">
     <Outlet></Outlet>
    </div>
    <Footer/>

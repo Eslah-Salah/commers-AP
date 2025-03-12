@@ -20,7 +20,7 @@ export default function Categories() {
   return (
     <div className="container mx-auto p-5">
       {/* Flex container to arrange items in rows of 3 */}
-      <div className="flex flex-wrap  gap-6">
+      <div className="flex flex-wrap  mt-11 gap-6">
         {categories?.map((category) => (
           <div
             key={category._id}

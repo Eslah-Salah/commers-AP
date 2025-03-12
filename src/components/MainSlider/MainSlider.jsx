@@ -8,22 +8,23 @@ export default function MainSlider() {
   var settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
   arrows:false}
   return <>
   <div className="flex">
     <div className="w-9/12">
     <Slider {...settings}>
       <div>
-        <img src={img3} className="w-full h-96" alt=''/>
+        <img src={img3} className="w-full h-96 object-cover" alt=''/>
       </div>
       <div>
-        <img src={img2} className="w-full h-96" alt=''/>
+        <img src={img2} className="w-full h-96 object-cover" alt=''/>
       </div>
       <div>
-        <img src={img1} className="w-full h-96" alt=''/>
+        <img src={img1} className="w-full h-96 object-cover" alt=''/>
       </div>
      
     </Slider></div>

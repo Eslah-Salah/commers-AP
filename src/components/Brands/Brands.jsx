@@ -2,16 +2,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 export default function Brands() {
-  let [Brands, setBrands] = useState([]);
+  const [brands, setBrands] = useState([]);
 
   async function getAllBrands() {
-    axios
-      .get(`https://ecommerce.routemisr.com/api/v1/brands`)
-      .then((response) => {
-        setBrands(response.data.data);
-        console.log(response.data.data);
-      })
-      .catch((err) => console.error(err));
+    try {
+      const response = await axios.get(
+        "https://ecommerce.routemisr.com/api/v1/brands"
+      );
+      setBrands(response.data.data);
+    } catch (error) {
+      console.error("Error fetching brands:", error);
+    }
   }
 
   useEffect(() => {
@@ -19,32 +20,30 @@ export default function Brands() {
   }, []);
 
   return (
-    <div className="container mx-auto py-5">
-        {/* Title */}
-    <h1 className="text-4xl font-bold text-center text-main  mb-6">
-      All Brands
-    </h1>
-     
-      <div className="flex flex-wrap gap-4 justify-center">
-        
-        {Brands?.map((Brands) => (
+    <div className="container mx-auto py-5  px-4">
+      {/* Title */}
+      <h1 className="text-3xl mt-11 md:text-4xl font-bold text-center text-main mb-6">
+        All Brands
+      </h1>
+
+      {/* Grid Layout */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        {brands?.map((brand) => (
           <div
-            key={Brands._id}
-            className="  hover:shadow-2xl transition-shadow duration-300     w-full   sm:w-[48%] md:w-[20%] lg:w-[20%] xl:w-[20%]  bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
+            key={brand._id}
+            className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
           >
             <a href="#">
               <img
-                className="rounded-t-lg w-full h-40 object-cover"
-                src={Brands.image}
-                alt={Brands.name}
+                className="w-full h-40 sm:h-48 object-cover"
+                src={brand.image}
+                alt={brand.name}
               />
             </a>
-            <div className="p-5">
-              <a href="#">
-                <p className="mb-2  text-center text-black tracking-tight text-gray-900 dark:text-white">
-                  {Brands.name}
-                </p>
-              </a>
+            <div className="p-4">
+              <p className="text-lg font-semibold text-center text-gray-800 dark:text-white">
+                {brand.name}
+              </p>
             </div>
           </div>
         ))}
